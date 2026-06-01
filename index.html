@@ -25,6 +25,43 @@ radial-gradient(circle at 50% 80%, #40916c 0%, transparent 35%),
 #081c15;
 animation:bgMove 12s ease-in-out infinite alternate;
 }
+.camera-header{
+display:flex;
+justify-content:space-between;
+align-items:center;
+margin-bottom:15px;
+}
+
+.camera-switch{
+
+width:45px !important;
+height:45px !important;
+
+padding:0 !important;
+
+margin:0 !important;
+
+border-radius:50% !important;
+
+background:#14532d !important;
+
+font-size:22px !important;
+
+display:flex;
+justify-content:center;
+align-items:center;
+
+box-shadow:0 0 15px rgba(0,0,0,.25);
+}
+
+.camera-switch:hover{
+
+background:#166534 !important;
+
+transform:rotate(180deg) scale(1.08);
+
+transition:.4s;
+}
 .switch-btn{
 margin-top:10px;
 background:#3b82f6;
@@ -145,11 +182,13 @@ animation:glow 2s infinite;
 <div id="webcam-container"></div>
 <button onclick="init()">Start Scanner</button>
 <button
-id="cameraBtn"
-onclick="switchCamera()"
-class="switch-btn">
-📱 Rear Camera
-</button>
+        id="cameraBtn"
+        class="camera-switch"
+        onclick="switchCamera()">
+
+        ↺
+
+</button> 
 </div>
 
 <div class="glass card">
@@ -194,7 +233,7 @@ const metadataURL=URL+"metadata.json";
 model=await tmImage.load(modelURL,metadataURL);
 maxPredictions=model.getTotalClasses();
 
-webcam=new tmImage.Webcam(facingMode === "user");
+webcam=new tmImage.Webcam(400, 400, facingMode === "user");
 await webcam.setup();
 await webcam.play();
 
@@ -286,13 +325,7 @@ async function switchCamera(){
     }else{
         facingMode = "user";
     }
-
-    document.getElementById("cameraBtn")
-.textContent =
-facingMode === "user"
-? "📱 Rear Camera"
-: "🤳 Front Camera";
-
+    
     if(webcam){
 
         webcam.stop();
