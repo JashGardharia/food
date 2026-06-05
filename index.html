@@ -262,29 +262,44 @@ async function predict(){
 
     const res = document.getElementById("result");
 
-    if(best.className.toLowerCase() === "healthy"){
+    const className = best.className.toLowerCase();
 
-        res.className = "result healthyGlow";
+if(className === "healthy"){
 
-        res.style.background = "rgba(34,197,94,.25)";
+    res.className = "result healthyGlow";
 
-        res.innerHTML = `
-        <h2>✅ HEALTHY FOOD</h2>
-        <p>Confidence: ${conf}%</p>
-        `;
+    res.style.background = "rgba(34,197,94,.25)";
 
-    } else {
+    res.innerHTML = `
+    <h2>✅ HEALTHY FOOD</h2>
+    <p>Confidence: ${conf}%</p>
+    `;
 
-        res.className = "result";
+}
+else if(className === "unhealthy"){
 
-        res.style.background = "rgba(239,68,68,.25)";
+    res.className = "result";
 
-        res.innerHTML = `
-        <h2>❌ UNHEALTHY FOOD</h2>
-        <p>Confidence: ${conf}%</p>
-        `;
+    res.style.background = "rgba(239,68,68,.25)";
 
-    }
+    res.innerHTML = `
+    <h2>❌ UNHEALTHY FOOD</h2>
+    <p>Confidence: ${conf}%</p>
+    `;
+
+}
+else if(className === "none"){
+
+    res.className = "result";
+
+    res.style.background = "rgba(128,128,128,.25)";
+
+    res.innerHTML = `
+    <h2>⚪ NO FOOD DETECTED</h2>
+    <p>Confidence: ${conf}%</p>
+    `;
+
+}
 
     for(let i = 0; i < prediction.length; i++){
 
@@ -292,12 +307,17 @@ async function predict(){
 
         let barColor;
 
-        if(prediction[i].className.toLowerCase() === "healthy"){
-            barColor = "#22c55e"; // GREEN
-        }else{
-            barColor = "#ef4444"; // RED
-        }
+        const cls = prediction[i].className.toLowerCase();
 
+if(cls === "healthy"){
+    barColor = "#22c55e"; // Green
+}
+else if(cls === "unhealthy"){
+    barColor = "#ef4444"; // Red
+}
+else if(cls === "none"){
+    barColor = "#9ca3af"; // Gray
+}
         labelContainer.childNodes[i].innerHTML = `
         <p><b>${prediction[i].className}</b> - ${p}%</p>
 
